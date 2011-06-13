@@ -1,0 +1,91 @@
+Order:
+  columns:
+    product_group_id:        { type: integer, notnull: true }
+    product_type_id:         { type: integer, notnull: true }
+    status_id:               { type: integer, notnull: true }
+    hash:                    { type: string(255) }
+    color_id:                { type: integer }
+    titel_tekst:             { type: string(255) }
+    main_tekst:              { type: string(4000) }
+    address_id:             { type: integer }
+    totalCost:            { type: decimal, scale: 2 }
+    dateCreate:              { type: timestamp }
+    dateEdit:                { type: timestamp }
+    barcode:                 { type: integer }
+  relations:
+    ProductGroup: { local: product_group_id, foreign: id}
+    ProductType: { local: product_type_id, foreign: id}
+    Status: { local: status_id, foreign: id }
+    Color: { local: color_id, foreign: id }
+    Address: { local: address_id, foreign: id } 
+
+ProductGroup:
+  actAs:
+    Sluggable:
+      fields: [value]
+  columns:
+    status_id: { type: integer, notnull: true }
+    type_id:   { type: integer, notnull: true }
+    value:     { type: string(50) }
+    title:     { type: string(255) }
+    ambianceC: { type: string(20) }
+    ambianceBg: { type: string(20) }
+    rang:      { type: integer, notnull: true }
+    customHTML: { type: string(4000) }
+    textPath:  { type: string(255) }
+  relations:
+    Status: { local: status_id, foreign: id }
+    GroupType: { local: type_id, foreign: id }
+    
+GroupType:
+  columns:
+    title: { type: string(255) }
+
+ProductType:
+  columns:
+    title: { type: string(255) }
+
+Status:
+  columns:
+    title: { type: string(255) }
+    
+Color:
+  columns:
+    hex: { type: string(6) }
+    value: { type: string(255) }
+    rang:  { type: integer }
+
+Address:
+  columns:
+    title: { type: string(255) }
+    address: { type: string(255) }
+    addressNo: { type: string(255) }
+    zipcode:  { type: string(255) }
+    city: { type: string(255) }
+    location: { type: string(255) }
+    email: { type: string(255) } 
+    phone: { type: string(255) }
+    sitemanager: { type: string(255) }
+
+Logo:
+  columns:
+    title: { type: string(255) }
+    filename: { type: string(255) }
+    rang:  { type: integer }
+    
+GroupColor:
+  columns:
+    productGroup_id: { type: integer, primary: true }
+    color_id: { type: integer, primary: true }
+  relations:
+    ProductGroup: { onDelete: CASCADE, local: productGroup_id, foreign: id }
+    Color: { onDelete: CASCADE, local: color_id, foreign: id }
+
+AddressLogo:
+  columns:
+    address_id: { type: integer, primary: true }
+    logo_id: { type: integer, primary: true }
+  relations:
+    Address: { onDelete: CASCADE, local: address_id, foreign: id }
+    Logo: { onDelete: CASCADE, local: logo_id, foreign: id }
+     
